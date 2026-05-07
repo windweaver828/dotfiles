@@ -1,0 +1,78 @@
+# ~/.inputrc
+#
+# Readline settings used by Bash and other readline-based tools.
+
+# ------------------------------------------------------------
+# Vi mode
+# ------------------------------------------------------------
+
+set editing-mode vi
+set keymap vi-insert
+set keyseq-timeout 200
+
+# Bind jk/kj to command mode.
+"jk": vi-movement-mode
+"kj": vi-movement-mode
+
+# Cursor shape by vi mode.
+set show-mode-in-prompt on
+set vi-ins-mode-string \1\e[5 q\2
+set vi-cmd-mode-string \1\e[1 q\2
+
+# ------------------------------------------------------------
+# Completion
+# ------------------------------------------------------------
+
+# Case-insensitive completion.
+set completion-ignore-case on
+
+# Treat hyphens and underscores as similar.
+# Example: some-file can match some_file.
+set completion-map-case on
+
+# Show completions immediately when ambiguous.
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+
+# Do not ask "Display all 200 possibilities?"
+set completion-query-items 200
+
+# Do not page completions with --More--.
+set page-completions off
+
+# Mark directories and symlinks nicely.
+set mark-directories on
+set mark-symlinked-directories on
+set visible-stats on
+
+# Color completion lists when supported.
+set colored-stats on
+set colored-completion-prefix on
+
+# Show common prefix while menu-completing.
+set menu-complete-display-prefix on
+
+# Press Tab repeatedly to cycle completions.
+TAB: menu-complete
+
+# Shift-Tab cycles backward in many terminals.
+"\e[Z": menu-complete-backward
+
+# Alt-/ lists possible completions without changing the command line.
+"\e/": possible-completions
+
+# ------------------------------------------------------------
+# History search
+# ------------------------------------------------------------
+
+# Type part of a command, then use up/down to search matching history.
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# Ctrl-left / Ctrl-right word movement in many terminals.
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word

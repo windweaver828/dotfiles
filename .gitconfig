@@ -1,0 +1,28 @@
+[user]
+	name = Keith Brandenburg
+	email = windweaver828@gmail.com
+; [credential]
+; 	helper = store
+[core]
+	editor = vi
+  autocrlf = input
+[hub]
+	protocol = https
+[init]
+	defaultBranch = master
+[push]
+	default = simple
+[pull]
+	rebase = false
+[color]
+  ui = auto
+[submodule]
+	recurse = true
+[advice]
+  addIgnoredFile = false
+[alias]
+  st = status
+  co = checkout
+  br = branch
+  cm = commit
+  lg = log --oneline --graph --decorate --all
