@@ -102,6 +102,16 @@ dotcmp() {
   gcmp -dot "$@"
 }
 
+npm() {
+  echo "npm is disabled by default on this host. Use toolbox/distrobox/dev VM if needed." >&2
+  return 127
+}
+
+npx() {
+  echo "npx is disabled by default on this host. Use toolbox/distrobox/dev VM if needed." >&2
+  return 127
+}
+
 if command -v bat >/dev/null 2>&1; then
   alias cat='bat --style=plain --pager=never'
   alias less='bat --style=plain'
