@@ -1,4 +1,4 @@
--- ~/.config/nvim/lua/core/lazy.lua
+-- ~/.config/nvim/lua/config/lazy.lua
 --
 -- lazy.nvim plugin manager setup.
 --
@@ -40,9 +40,7 @@ if not ok then
   return
 end
 
-local plugin_specs = require("plugins")
-
-lazy.setup(plugin_specs, {
+lazy.setup("plugins", {
   lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json",
 
   install = {

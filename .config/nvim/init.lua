@@ -3,10 +3,10 @@
 -- Small, secure-friendly Neovim config.
 -- No LazyVim, no Mason, no automatic plugin installs, no update checks.
 
-require("core.options")
-require("core.keymaps")
-require("core.lsp")
-require("core.lazy")
+require("config.options")
+require("config.keymaps")
+require("config.lsp")
+require("config.lazy")
 
 -- Optional local machine-specific config.
 -- Keep this untracked.
