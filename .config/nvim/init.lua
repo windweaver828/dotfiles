@@ -1,6 +1,12 @@
+-- ~/.config/nvim/init.lua
+--
+-- Small, secure-friendly Neovim config.
+-- No LazyVim, no Mason, no plugin auto-installs, no update checks.
+
 require("core.options")
 require("core.keymaps")
 require("core.lsp")
+require("core.plugin_manager")
 require("plugins")
 
 -- Optional local machine-specific config.

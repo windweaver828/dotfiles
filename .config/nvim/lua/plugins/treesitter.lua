@@ -1,5 +1,8 @@
+-- ~/.config/nvim/lua/plugins/treesitter.lua
+--
 -- Treesitter config.
--- No parser auto-installs.
+-- The plugin itself is optional.
+-- Parsers are managed only after nvim-treesitter is intentionally installed.
 
 local ok, configs = pcall(require, "nvim-treesitter.configs")
 
@@ -7,10 +10,19 @@ if not ok then
   return
 end
 
+local manifest_ok, manifest = pcall(require, "core.plugin_manifest")
+local parsers = {}
+
+if manifest_ok then
+  parsers = manifest.treesitter_parsers or {}
+end
+
 configs.setup({
-  ensure_installed = {},
+  -- Since nvim-treesitter itself is only installed intentionally,
+  -- let it keep this small approved parser list installed.
+  ensure_installed = parsers,
   sync_install = false,
-  auto_install = false,
+  auto_install = true,
 
   highlight = {
     enable = true,

@@ -33,6 +33,14 @@ local function root_dir(bufnr, markers)
   return vim.fn.getcwd()
 end
 
+local lsp_filetype_group = vim.api.nvim_create_augroup("CoreLspFiletype", {
+  clear = true,
+})
+
+local lsp_attach_group = vim.api.nvim_create_augroup("CoreLspAttach", {
+  clear = true,
+})
+
 local function start_lsp_for_filetype(opts)
   local name = opts.name
   local cmd = opts.cmd
@@ -45,6 +53,7 @@ local function start_lsp_for_filetype(opts)
   end
 
   vim.api.nvim_create_autocmd("FileType", {
+    group = lsp_filetype_group,
     pattern = filetypes,
     callback = function(event)
       vim.lsp.start({
@@ -60,6 +69,7 @@ local function start_lsp_for_filetype(opts)
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {
+  group = lsp_attach_group,
   callback = function(event)
     local map = function(mode, lhs, rhs, desc)
       vim.keymap.set(mode, lhs, rhs, {
