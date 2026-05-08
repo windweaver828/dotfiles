@@ -1,13 +1,12 @@
--- Plugin config loader.
--- Missing plugins are silently ignored.
+-- ~/.config/nvim/lua/plugins/init.lua
+--
+-- lazy.nvim plugin spec imports.
+-- This file lists optional plugins only.
+-- lazy.nvim handles install/update/lockfile behavior.
 
-local plugin_modules = {
-  "plugins.tokyonight",
-  "plugins.lualine",
-  "plugins.treesitter",
-  "plugins.gitsigns",
+return {
+  { import = "plugins.tokyonight" },
+  { import = "plugins.lualine" },
+  { import = "plugins.treesitter" },
+  { import = "plugins.gitsigns" },
 }
-
-for _, module in ipairs(plugin_modules) do
-  pcall(require, module)
-end

@@ -1,14 +1,18 @@
-local ok, tokyonight = pcall(require, "tokyonight")
+-- ~/.config/nvim/lua/plugins/tokyonight.lua
 
-if not ok then
-  pcall(vim.cmd.colorscheme, "habamax")
-  return
-end
-
-tokyonight.setup({
-  style = "moon",
-  transparent = false,
-  terminal_colors = true,
-})
-
-vim.cmd.colorscheme("tokyonight")
+return {
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      style = "moon",
+      transparent = false,
+      terminal_colors = true,
+    },
+    config = function(_, opts)
+      require("tokyonight").setup(opts)
+      vim.cmd.colorscheme("tokyonight")
+    end,
+  },
+}

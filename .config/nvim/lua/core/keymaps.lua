@@ -2,10 +2,16 @@
 
 local map = vim.keymap.set
 
+-- 1. Unmap spacebar in normal mode
+vim.keymap.set("n", "<Space>", "", { silent = true, remap = false })
+
+-- 2. Set the leader key to space
+vim.g.mapleader = " "
+
 -- Basic commands.
 map("n", "<leader>w", "<cmd>write<CR>", { desc = "Save" })
-map("n", "<leader>q", "<cmd>quit<CR>", { desc = "Quit" })
-map("n", "<leader>Q", "<cmd>quitall<CR>", { desc = "Quit all" })
+map("n", "<leader>q", "<cmd>quitall<CR>", { desc = "Quit" })
+map("n", "<leader>qq", "<cmd>quitall!<CR>", { desc = "Quit all" })
 map("n", "<leader>h", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
 -- Built-in file explorer.

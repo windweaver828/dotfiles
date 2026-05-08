@@ -1,29 +1,31 @@
-local ok, lualine = pcall(require, "lualine")
+-- ~/.config/nvim/lua/plugins/lualine.lua
 
-if not ok then
-  return
-end
-
-lualine.setup({
-  options = {
-    theme = "tokyonight",
-    icons_enabled = vim.env.WW_NVIM_ICONS == "1",
-    globalstatus = true,
-    component_separators = { left = "|", right = "|" },
-    section_separators = { left = "", right = "" },
-  },
-  sections = {
-    lualine_a = { "mode" },
-    lualine_b = { "branch", "diff", "diagnostics" },
-    lualine_c = {
-      {
-        "filename",
-        path = 1,
-        file_status = true,
+return {
+  {
+    "nvim-lualine/lualine.nvim",
+    lazy = false,
+    opts = {
+      options = {
+        theme = "tokyonight",
+        icons_enabled = vim.env.WW_NVIM_ICONS == "1",
+        globalstatus = true,
+        component_separators = { left = "|", right = "|" },
+        section_separators = { left = "", right = "" },
+      },
+      sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch", "diff", "diagnostics" },
+        lualine_c = {
+          {
+            "filename",
+            path = 1,
+            file_status = true,
+          },
+        },
+        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
       },
     },
-    lualine_x = { "encoding", "fileformat", "filetype" },
-    lualine_y = { "progress" },
-    lualine_z = { "location" },
   },
-})
+}
