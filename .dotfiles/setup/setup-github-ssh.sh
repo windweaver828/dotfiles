@@ -6,6 +6,9 @@ set -euo pipefail
 # Idempotently sets up a GitHub-specific SSH key and SSH config entry.
 # Safe for a public dotfiles repo: this script contains no secrets and only
 # generates key material locally.
+#
+# Also switches the dotfiles repo origin remote to SSH when the dotfiles repo
+# exists at $DOTFILES_DIR, defaulting to ~/.dot.
 
 KEY_TTL="${GITHUB_SSH_KEY_TTL:-8h}"
 
@@ -15,6 +18,9 @@ KEY_FILE="$SSH_DIR/id_ed25519-github"
 PUB_KEY_FILE="$KEY_FILE.pub"
 HOST_COMMENT="$(whoami)@$(hostname) github"
 MANAGED_COMMENT="# GitHub SSH config added by setup-github-ssh.sh"
+
+DOT_DIR="${DOTFILES_DIR:-$HOME/.dot}"
+DOTFILES_SSH_REMOTE="${DOTFILES_SSH_REMOTE:-git@github.com:windweaver828/dotfiles.git}"
 
 die() {
   echo "Error: $*" >&2
@@ -45,8 +51,31 @@ has_github_host_block() {
     ' "$CONFIG_FILE"
 }
 
+set_dotfiles_remote_to_ssh() {
+  if [ ! -d "$DOT_DIR/.git" ]; then
+    echo
+    echo "Dotfiles repo not found at:"
+    echo "  $DOT_DIR"
+    echo "Skipping dotfiles remote update."
+    return 0
+  fi
+
+  echo
+  echo "Setting dotfiles origin remote to SSH:"
+  echo "  $DOTFILES_SSH_REMOTE"
+
+  GIT_DIR="$DOT_DIR/.git" GIT_WORK_TREE="$HOME" \
+    git remote set-url origin "$DOTFILES_SSH_REMOTE"
+
+  echo
+  echo "Current dotfiles remote:"
+  GIT_DIR="$DOT_DIR/.git" GIT_WORK_TREE="$HOME" \
+    git remote -v
+}
+
 need_cmd ssh
 need_cmd ssh-keygen
+need_cmd git
 
 mkdir -p "$SSH_DIR"
 chmod 700 "$SSH_DIR"
@@ -131,6 +160,8 @@ if [ -z "${SSH_AUTH_SOCK:-}" ]; then
   echo "For a temporary agent in this shell, run:"
   echo '  eval "$(ssh-agent -s)"'
 fi
+
+set_dotfiles_remote_to_ssh
 
 echo
 echo "Done."
