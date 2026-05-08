@@ -1,5 +1,2 @@
-# Local-only config
-lua/local.lua
-
-# Old LazyVim file if it ever appears again
+lazy-lock.json
 lazyvim.json
