@@ -18,7 +18,8 @@ recommended_installs=(
 optional_installs=(
 	"bat"
 	"curl"
-	"fzf"
+	"fd/fd-find"
+  "fzf"
 	"lsd"
 	"ripgrep"
 	"wl-clipboard"

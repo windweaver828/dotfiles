@@ -1,62 +1,53 @@
 -- ~/.config/nvim/lua/plugins/treesitter.lua
---
--- Treesitter is installed only when explicitly running :Lazy install.
--- Parser installs are allowed once the plugin itself has intentionally been installed.
 
 return {
   {
     "nvim-treesitter/nvim-treesitter",
 
-    -- Use the classic branch for now.
-    -- It supports the stable nvim-treesitter.configs API and works well
-    -- on current Nvim 0.10/0.11 systems.
+    -- Important for Neovim 0.11.x.
+    -- The new main branch is a rewrite aimed at Neovim 0.12+.
     branch = "master",
 
-    -- Runs during explicit :Lazy install / :Lazy update actions.
     build = ":TSUpdate",
-
     event = { "BufReadPost", "BufNewFile" },
 
     opts = {
       ensure_installed = {
         "bash",
         "lua",
-        "python",
         "vim",
         "vimdoc",
-        "json",
+        "python",
         "yaml",
+        "json",
+        "toml",
         "markdown",
         "markdown_inline",
       },
 
+      auto_install = false,
       sync_install = false,
-
-      -- Since nvim-treesitter itself is only installed intentionally,
-      -- allow it to install missing configured parsers when needed.
-      auto_install = true,
 
       highlight = {
         enable = true,
+
+        -- Use normal Vim regex highlighting too only when needed.
+        -- Keeping this false avoids double-highlighting slowdowns.
         additional_vim_regex_highlighting = false,
 
-        disable = function(_, bufnr)
-          local max_filesize = 512 * 1024
-          local filename = vim.api.nvim_buf_get_name(bufnr)
-
-          if filename == "" then
-            return false
-          end
-
-          local uv = vim.uv or vim.loop
-          local ok_stat, stats = pcall(uv.fs_stat, filename)
-
-          return ok_stat and stats and stats.size > max_filesize
+        -- Bail out on big files.
+        disable = function(_, buf)
+          local max_filesize = 1024 * 1024 -- 1MB
+          local name = vim.api.nvim_buf_get_name(buf)
+          local ok, stats = pcall(vim.loop.fs_stat, name)
+          return ok and stats and stats.size > max_filesize
         end,
       },
 
+      -- Keep this OFF. Tree-sitter indent is the feature most likely
+      -- to do weird things, and normal Neovim indent is fine.
       indent = {
-        enable = true,
+        enable = false,
       },
     },
 

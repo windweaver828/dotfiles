@@ -8,16 +8,6 @@ local function search_center()
   return "<CR>"
 end
 
-local function fzf(command, opts)
-  return function()
-    local ok, fzf_lua = pcall(require, "fzf-lua")
-    if not ok then
-      vim.notify("fzf-lua is not installed", vim.log.levels.WARN)
-      return
-    end
-    fzf_lua[command](opts or {})
-  end
-end
 
 local function netrw_toggle()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -148,20 +138,3 @@ map("n", "<leader>cD", function()
   local current = vim.diagnostic.config().virtual_text
   vim.diagnostic.config({ virtual_text = not current })
 end, { desc = "Toggle inline diagnostics" })
-
---  Fuzzy search files for text and open file
-map("n", "<leader>ff", fzf("files"), { desc = "Find files" })
-map("n", "<leader>fg", fzf("git_files"), { desc = "Find git files" })
-map("n", "<leader>fr", fzf("oldfiles"), { desc = "Recent files" })
-map("n", "<leader>fo", fzf("oldfiles"), { desc = "Recent files" })
-map("n", "<leader>fb", fzf("buffers", { sort_mru = true, sort_lastused = true }), { desc = "Buffers" })
-map("n", "<leader>fB", fzf("builtin"), { desc = "Fzf Built-in Commands" })
-map("n", "<leader>f/", fzf("live_grep"), { desc = "Grep files" })
-map("n", "<leader>fs", fzf("live_grep"), { desc = "Grep files" })
-map("n", "<leader>fw", fzf("grep_cword"), { desc = "Grep word" })
-map("x", "<leader>fw", fzf("grep_visual"), { desc = "Grep selection" })
-map("n", "<leader>fc", fzf("files", { cwd = vim.fn.stdpath("config") }), { desc = "Find config files" })
-map("n", "<leader>fC", fzf("command_history"), { desc = "Command history" })
-map("n", "<leader>fh", fzf("help_tags"), { desc = "Help tags" })
-map("n", "<leader>fk", fzf("keymaps"), { desc = "Keymaps" })
-map("n", "<leader>fR", fzf("resume"), { desc = "Resume fzf" })
