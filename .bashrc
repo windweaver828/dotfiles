@@ -263,5 +263,7 @@ if command -v tmux >/dev/null 2>&1 &&
   [ -z "${WW_NO_TMUX:-}" ] &&
   [ -t 0 ] &&
   [ -t 1 ]; then
-  exec tmux new-session -A -s main
+# exec replaces current shell so exit kills terminal
+  # exec tmux new-session -A -s main
+  tmux new-session -A -s main
 fi
