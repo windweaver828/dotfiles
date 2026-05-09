@@ -1,0 +1,4 @@
+pkg install fontconfig-utils bash-completion neovim bat curl lsd clang git fd ripgrep fzf ttf-nerd-fonts-symbols
+termux-setup-storage
+cp font regular to ~/.termux/font.ttf
+fc-cache -r
