@@ -12,3 +12,9 @@ export PATH
 if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
   . "$HOME/.bashrc"
 fi
+
+# Machine-local overrides, intentionally untracked.
+if [ -r "$HOME/.profile.local" ]; then
+  # shellcheck source=/dev/null
+  . "$HOME/.profile.local"
+fi
