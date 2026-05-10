@@ -21,25 +21,6 @@ shopt -s histappend
 shopt -s checkwinsize
 shopt -s cmdhist
 
-# PATH
-# ------------------------------------------------------------
-
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
-[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
-[ -d "$HOME/go/bin" ] && PATH="$PATH:$HOME/go/bin"
-
-export PATH
-
-# ------------------------------------------------------------
-# Locale
-# ------------------------------------------------------------
-
-# Do not force LC_ALL by default. It can cause warnings on minimal systems
-# if the locale is not generated.
-export LANG="${LANG:-en_US.UTF-8}"
-export LANGUAGE="${LANGUAGE:-en_US.UTF-8}"
-export LC_CTYPE="${LC_CTYPE:-en_US.UTF-8}"
-
 # ------------------------------------------------------------
 # Editor
 # ------------------------------------------------------------
@@ -120,6 +101,8 @@ elif command -v batcat >/dev/null 2>&1; then
   alias cat='batcat --style=plain --pager=never'
   alias less='batcat --style=plain'
   PAGER="${PAGER:-batcat --style=plain}"
+else
+  export PAGER="${PAGER:-less}"
 fi
 
 # ls / directory listing
