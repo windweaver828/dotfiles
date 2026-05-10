@@ -250,3 +250,9 @@ if command -v tmux >/dev/null 2>&1 &&
   # exec tmux new-session -A -s main
   tmux new-session -A -s main
 fi
+
+# Machine-local overrides, intentionally untracked.
+if [ -r "$HOME/.bashrc.local" ]; then
+  # shellcheck source=/dev/null
+  . "$HOME/.bashrc.local"
+fi
