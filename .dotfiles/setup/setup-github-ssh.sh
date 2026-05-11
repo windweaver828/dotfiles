@@ -67,6 +67,7 @@ set_dotfiles_remote_to_ssh() {
 
   GIT_DIR="$DOT_DIR/.git" GIT_WORK_TREE="$HOME" \
     git remote set-url origin "$DOTFILES_HTTPS_REMOTE"
+  GIT_DIR="$DOT_DIR/.git" GIT_WORK_TREE="$HOME" \
     git remote set-url --push origin "$DOTFILES_SSH_REMOTE"
 
   echo
