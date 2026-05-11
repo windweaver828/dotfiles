@@ -21,6 +21,7 @@ MANAGED_COMMENT="# GitHub SSH config added by setup-github-ssh.sh"
 
 DOT_DIR="${DOTFILES_DIR:-$HOME/.dot}"
 DOTFILES_SSH_REMOTE="${DOTFILES_SSH_REMOTE:-git@github.com:windweaver828/dotfiles.git}"
+DOTFILES_HTTPS_REMOTE="${DOTFILES_HTTPS_REMOTE:-https://github.com/windweaver828/dotfiles.git}"
 
 die() {
   echo "Error: $*" >&2
@@ -65,7 +66,9 @@ set_dotfiles_remote_to_ssh() {
   echo "  $DOTFILES_SSH_REMOTE"
 
   GIT_DIR="$DOT_DIR/.git" GIT_WORK_TREE="$HOME" \
-    git remote set-url origin "$DOTFILES_SSH_REMOTE"
+    git remote set-url origin "$DOTFILES_HTTPS_REMOTE"
+  GIT_DIR="$DOT_DIR/.git" GIT_WORK_TREE="$HOME" \
+    git remote set-url --push origin "$DOTFILES_SSH_REMOTE"
 
   echo
   echo "Current dotfiles remote:"
