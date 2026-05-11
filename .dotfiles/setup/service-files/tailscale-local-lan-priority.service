@@ -1,0 +1,13 @@
+[Unit]
+Description=Prefer local LAN over overlapping Tailscale subnet route
+After=network-online.target tailscaled.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/bash -c '/usr/sbin/ip rule show | grep -q "to 192.168.22.0/24 lookup main" || /usr/sbin/ip rule add to 192.168.22.0/24 priority 2500 lookup main'
+ExecStop=/usr/bin/bash -c '/usr/sbin/ip rule del to 192.168.22.0/24 priority 2500 lookup main 2>/dev/null || true'
+
+[Install]
+WantedBy=multi-user.target
