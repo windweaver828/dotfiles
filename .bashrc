@@ -237,6 +237,8 @@ __ww_prompt_command() {
 
 PROMPT_COMMAND="__ww_prompt_command"
 
+[ -r "$HOME/.ssh/agent-init.sh" ] && . "$HOME/.ssh/agent-init.sh"
+
 # ------------------------------------------------------------
 # Auto-start tmux - Leave near bottom ideally
 # ------------------------------------------------------------

@@ -18,3 +18,4 @@ mouse-hide-while-typing = true
 # Optional: pick a theme after browsing them.
 # Run: ghostty +list-themes
 theme = TokyoNight Moon
+font = FiraCode Nerd Font Reg
