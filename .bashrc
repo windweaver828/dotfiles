@@ -150,8 +150,45 @@ elif [ -r /etc/bash_completion ]; then
   . /etc/bash_completion
 fi
 
+# ORDER 1 - Main completions
+# Make sure programmable completion is enabled.
+shopt -s progcomp
+if [ -r /usr/share/bash-completion/bash_completion ]; then
+  . /usr/share/bash-completion/bash_completion
+elif [ -r /etc/bash_completion ]; then
+  . /etc/bash_completion
+fi
+
+
 # ORDER 2 - Set up fzf key bindings and fuzzy completions
-command -v fzf >/dev/null && source <(fzf --bash)
+if command -v fzf >/dev/null 2>&1; then
+  # General fzf UI defaults.
+  export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS:---height=40% --layout=reverse --border --inline-info}"
+  # Prefer fd/fdfind for file discovery when available.
+  if command -v fd >/dev/null 2>&1; then
+    export FZF_DEFAULT_COMMAND="${FZF_DEFAULT_COMMAND:-fd --type f --hidden --follow --exclude .git}"
+    export FZF_CTRL_T_COMMAND="${FZF_CTRL_T_COMMAND:-$FZF_DEFAULT_COMMAND}"
+    export FZF_ALT_C_COMMAND="${FZF_ALT_C_COMMAND:-fd --type d --hidden --follow --exclude .git}"
+  elif command -v fdfind >/dev/null 2>&1; then
+    export FZF_DEFAULT_COMMAND="${FZF_DEFAULT_COMMAND:-fdfind --type f --hidden --follow --exclude .git}"
+    export FZF_CTRL_T_COMMAND="${FZF_CTRL_T_COMMAND:-$FZF_DEFAULT_COMMAND}"
+    export FZF_ALT_C_COMMAND="${FZF_ALT_C_COMMAND:-fdfind --type d --hidden --follow --exclude .git}"
+  fi
+  # Ctrl-T preview for files/dirs. Uses batcat/bat if present, else sed/ls.
+  export FZF_CTRL_T_OPTS="${FZF_CTRL_T_OPTS:---preview 'if [ -d {} ]; then ls -la --color=always {} 2>/dev/null; elif command -v batcat >/dev/null 2>&1; then batcat --style=numbers --color=always --line-range=:200 {} 2>/dev/null; elif command -v bat >/dev/null 2>&1; then bat --style=numbers --color=always --line-range=:200 {} 2>/dev/null; else sed -n \"1,200p\" {} 2>/dev/null; fi'}"
+  # Alt-C preview for directories.
+  export FZF_ALT_C_OPTS="${FZF_ALT_C_OPTS:---preview 'ls -la --color=always {} 2>/dev/null'}"
+  # Newer fzf supports this.
+  if fzf --bash >/dev/null 2>&1; then
+    eval "$(fzf --bash)"
+  else
+    # Older distro package fallbacks.
+    [ -r /usr/share/fzf/shell/key-bindings.bash ] && . /usr/share/fzf/shell/key-bindings.bash
+    [ -r /usr/share/fzf/shell/completion.bash ] && . /usr/share/fzf/shell/completion.bash
+    [ -r /usr/share/doc/fzf/examples/key-bindings.bash ] && . /usr/share/doc/fzf/examples/key-bindings.bash
+    [ -r /usr/share/bash-completion/completions/fzf ] && . /usr/share/bash-completion/completions/fzf
+  fi
+fi
 
 # ORDER 3 - Setup Prompt
 __ww_git_info() {

@@ -13,13 +13,12 @@ recommended_installs=(
 	"git"
 	"tmux"
 	"neovim"
+  "fzf"
 )
 
 optional_installs=(
 	"bat"
 	"curl"
-	"fd/fd-find"
-  "fzf"
 	"lsd"
 	"ripgrep"
 	"wl-clipboard"
