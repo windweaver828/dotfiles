@@ -5,8 +5,8 @@
 
 # Return immediately for non-interactive shells.
 case $- in
-*i*) ;;
-*) return ;;
+  *i*) ;;
+  *) return ;;
 esac
 
 # ------------------------------------------------------------
@@ -25,16 +25,16 @@ shopt -s cmdhist
 # Editor
 # ------------------------------------------------------------
 
-if command -v nvim >/dev/null 2>&1; then
+if command -v nvim > /dev/null 2>&1; then
   export EDITOR="nvim"
   export VISUAL="nvim"
   alias vim="nvim"
   alias vi="nvim"
-elif command -v vim >/dev/null 2>&1; then
+elif command -v vim > /dev/null 2>&1; then
   export EDITOR="vim"
   export VISUAL="vim"
   alias vi="vim"
-elif command -v vi >/dev/null 2>&1; then
+elif command -v vi > /dev/null 2>&1; then
   export EDITOR="vi"
   export VISUAL="vi"
 else
@@ -51,12 +51,12 @@ gcmp() {
   local message=""
   for arg in "$@"; do
     case "${arg}" in
-    -dot)
-      dot=true
-      ;;
-    *)
-      message+="${arg} "
-      ;;
+      -dot)
+        dot=true
+        ;;
+      *)
+        message+="${arg} "
+        ;;
     esac
   done
   if ${dot}; then
@@ -93,11 +93,11 @@ npx() {
   return 127
 }
 
-if command -v bat >/dev/null 2>&1; then
+if command -v bat > /dev/null 2>&1; then
   alias cat='bat --style=plain --pager=never'
   alias less='bat --style=plain'
   PAGER="${PAGER:-bat --style=plain}"
-elif command -v batcat >/dev/null 2>&1; then
+elif command -v batcat > /dev/null 2>&1; then
   alias cat='batcat --style=plain --pager=never'
   alias less='batcat --style=plain'
   PAGER="${PAGER:-batcat --style=plain}"
@@ -106,7 +106,7 @@ else
 fi
 
 # ls / directory listing
-if command -v lsd >/dev/null 2>&1; then
+if command -v lsd > /dev/null 2>&1; then
   alias ls='lsd --group-dirs=first --date=relative --size=short -g'
   alias tree='ls --tree'
 else
@@ -126,7 +126,6 @@ alias gcam='git commit --all --message'
 alias gcm=gcam
 alias gitcmp=gcmp
 alias grep="grep --color=auto"
-alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alF'
 alias lla='ls -lha'
@@ -159,17 +158,16 @@ elif [ -r /etc/bash_completion ]; then
   . /etc/bash_completion
 fi
 
-
 # ORDER 2 - Set up fzf key bindings and fuzzy completions
-if command -v fzf >/dev/null 2>&1; then
+if command -v fzf > /dev/null 2>&1; then
   # General fzf UI defaults.
   export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS:---height=40% --layout=reverse --border --inline-info}"
   # Prefer fd/fdfind for file discovery when available.
-  if command -v fd >/dev/null 2>&1; then
+  if command -v fd > /dev/null 2>&1; then
     export FZF_DEFAULT_COMMAND="${FZF_DEFAULT_COMMAND:-fd --type f --hidden --follow --exclude .git}"
     export FZF_CTRL_T_COMMAND="${FZF_CTRL_T_COMMAND:-$FZF_DEFAULT_COMMAND}"
     export FZF_ALT_C_COMMAND="${FZF_ALT_C_COMMAND:-fd --type d --hidden --follow --exclude .git}"
-  elif command -v fdfind >/dev/null 2>&1; then
+  elif command -v fdfind > /dev/null 2>&1; then
     export FZF_DEFAULT_COMMAND="${FZF_DEFAULT_COMMAND:-fdfind --type f --hidden --follow --exclude .git}"
     export FZF_CTRL_T_COMMAND="${FZF_CTRL_T_COMMAND:-$FZF_DEFAULT_COMMAND}"
     export FZF_ALT_C_COMMAND="${FZF_ALT_C_COMMAND:-fdfind --type d --hidden --follow --exclude .git}"
@@ -179,7 +177,7 @@ if command -v fzf >/dev/null 2>&1; then
   # Alt-C preview for directories.
   export FZF_ALT_C_OPTS="${FZF_ALT_C_OPTS:---preview 'ls -la --color=always {} 2>/dev/null'}"
   # Newer fzf supports this.
-  if fzf --bash >/dev/null 2>&1; then
+  if fzf --bash > /dev/null 2>&1; then
     eval "$(fzf --bash)"
   else
     # Older distro package fallbacks.
@@ -192,8 +190,8 @@ fi
 
 # ORDER 3 - Setup Prompt
 __ww_git_info() {
-  command -v git >/dev/null 2>&1 || return 0
-  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return 0
+  command -v git > /dev/null 2>&1 || return 0
+  git rev-parse --is-inside-work-tree > /dev/null 2>&1 || return 0
 
   local green="$1"
   local red="$2"
@@ -202,18 +200,18 @@ __ww_git_info() {
   local branch
   local dirty=""
 
-  branch="$(git branch --show-current 2>/dev/null)"
+  branch="$(git branch --show-current 2> /dev/null)"
 
   if [ -z "$branch" ]; then
-    branch="$(git rev-parse --short HEAD 2>/dev/null)"
+    branch="$(git rev-parse --short HEAD 2> /dev/null)"
   fi
 
   [ -n "$branch" ] || return 0
 
   # Mark dirty for tracked/staged changes.
   # This ignores untracked files, similar to DISABLE_UNTRACKED_FILES_DIRTY.
-  if ! git diff --quiet --ignore-submodules -- 2>/dev/null ||
-    ! git diff --cached --quiet --ignore-submodules -- 2>/dev/null; then
+  if ! git diff --quiet --ignore-submodules -- 2> /dev/null \
+                                                           || ! git diff --cached --quiet --ignore-submodules -- 2> /dev/null; then
     dirty="${red}*${green}"
   fi
 
@@ -280,12 +278,12 @@ PROMPT_COMMAND="__ww_prompt_command"
 # Auto-start tmux - Leave near bottom ideally
 # ------------------------------------------------------------
 
-if command -v tmux >/dev/null 2>&1 &&
-  [ -z "${TMUX:-}" ] &&
-  [ -z "${WW_NO_TMUX:-}" ] &&
-  [ -t 0 ] &&
-  [ -t 1 ]; then
-# exec replaces current shell so exit kills terminal
+if command -v tmux > /dev/null 2>&1 \
+                                   && [ -z "${TMUX:-}" ] \
+                     && [ -z "${WW_NO_TMUX:-}" ] \
+                           && [ -t 0 ] \
+           && [ -t 1 ]; then
+  # exec replaces current shell so exit kills terminal
   # exec tmux new-session -A -s main
   tmux new-session -A -s main
 fi
