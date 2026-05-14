@@ -34,7 +34,10 @@ vim.opt.incsearch = true
 vim.opt.cursorline = true
 vim.opt.scrolloff = 5
 vim.opt.sidescrolloff = 5
-vim.opt.wrap = false
+vim.opt.wrap = true
+vim.opt.wrapmargin = 0
+vim.opt.textwidth = 0
+vim.opt.linebreak = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
