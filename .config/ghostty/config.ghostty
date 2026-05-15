@@ -13,7 +13,7 @@ window-padding-y = 2
 window-padding-balance = true
 
 # Less annoying mouse cursor while typing.
-fullscreen = true
+# fullscreen = true
 mouse-hide-while-typing = true
 
 # Optional: pick a theme after browsing them.
