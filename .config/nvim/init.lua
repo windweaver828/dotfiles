@@ -5,7 +5,6 @@
 
 require("config.options")
 require("config.keymaps")
-require("config.lsp")
 require("config.lazy")
 
 -- Optional local machine-specific config.

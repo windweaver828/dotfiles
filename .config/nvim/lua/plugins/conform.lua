@@ -121,7 +121,10 @@ return {
       -- Python:
       -- Organize/sort imports, then format.
       -- Do NOT include ruff_fix here; unused imports should stay diagnostics/fixes.
-      python = { "ruff_organize_imports", "ruff_format" },
+      python = {
+        "ruff_organize_imports",
+        "ruff_format"
+      },
 
       -- Shell:
       sh = { "shfmt" },
