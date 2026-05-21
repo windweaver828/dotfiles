@@ -54,9 +54,8 @@ map("n", "<Space>", "", { silent = true, remap = false })
 vim.g.mapleader = " "
 
 -- Basic commands.
-map("n", "<leader>w", "<cmd>write<CR>", { desc = "Save" })
-map("n", "<leader>q", "<cmd>wa<CR><cmd>q<CR>", { desc = "Write all and quit" })
-map("n", "<leader>qq", "<cmd>quitall!<CR>", { desc = "Quit all" })
+map("n", "<leader>w", "<cmd>wa<CR>", { desc = "Save All" })
+map("n", "<leader>qq", "<cmd>quitall!<CR>", { desc = "Quit All!" })
 map("n", "<leader>/", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
 -- Built-in file explorer.
