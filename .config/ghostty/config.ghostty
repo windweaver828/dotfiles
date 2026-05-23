@@ -19,3 +19,5 @@ mouse-hide-while-typing = true
 # Optional: pick a theme after browsing them.
 # Run: ghostty +list-themes
 theme = TokyoNight Moon
+
+shell-integration-features = ssh-terminfo,ssh-env,sudo
